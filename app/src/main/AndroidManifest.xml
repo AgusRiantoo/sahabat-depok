@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kosanworks.sahabatdepok">
+
+    <!-- Accessing camera hardware -->
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".helpers.AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA7IesKiZ4BavK9jE9bH1Gr8U1NlwbzJ4U" />
+
+        <activity
+            android:name=".SplashScreen"
+            android:label="Splash"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:name=".DaftarActivity"
+            android:label="Daftar"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".UserPost"
+            android:label="Lapor!"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Kategori"
+            android:label="Kategori"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UserLaporan"
+            android:label="LaporanKu"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".LaporanDetail" />
+        <activity
+            android:name=".UserProfile"
+            android:label="My Profile"
+            android:theme="@style/MyMaterialTheme" />
+        <activity
+            android:label="Directions"
+            android:theme="@style/AppTheme"
+            android:name=".Directions"/>
+    </application>
+
+</manifest>
