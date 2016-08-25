@@ -60,7 +60,7 @@ public class UserLaporanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Picasso.with(context)
                 .load(url)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.macet)
+                .error(R.drawable.loading)
                 .fit()
                 .centerInside()
                 .into(myHolder.foto);

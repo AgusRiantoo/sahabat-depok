@@ -162,8 +162,4 @@ public class DaftarActivity extends AppCompatActivity {
             pDialog.dismiss();
     }
 
-    public void backlogin(View view) {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-    }
 }

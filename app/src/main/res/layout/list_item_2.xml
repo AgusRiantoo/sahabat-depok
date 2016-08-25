@@ -49,7 +49,7 @@
                 android:layout_height="156dp"
                 android:background="@color/textColor"
                 android:scaleType="centerCrop"
-                android:src="@drawable/macet"
+                android:src="@drawable/loading"
                 android:visibility="visible" />
 
             <TextView

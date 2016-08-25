@@ -69,13 +69,13 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
 
         Bundle b = getIntent().getExtras();
-        title = "aku";
-        destination = "Jl. Pasir Angin III No.31, Sukaraja";
+        title = b.getString("title");
+        destination = b.getString("alamat");
         latitude = b.getDouble("latitude");
         longitude = b.getDouble("longitude");
 
-        etOrigin = String.valueOf(latitude + "," + longitude);
-        etDestination = destination;
+        etOrigin = "";
+        etDestination = String.valueOf(latitude + "," + longitude);
         sendRequest();
 
         if (mGoogleApiClient == null) {
@@ -95,7 +95,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         String origin = etOrigin;
         String destination = etDestination;
         if (origin.isEmpty()) {
-            Toast.makeText(this, "Origin not found!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Silahkan lakukan request dengan menekan tombol find my location!", Toast.LENGTH_SHORT).show();
             return;
         }
         if (destination.isEmpty()) {

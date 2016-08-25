@@ -81,7 +81,7 @@ public class UserPost extends AppCompatActivity {
         pDialog.setCancelable(false);
 
 
-        takePicture();
+//        takePicture();
         Button submit = (Button) findViewById(R.id.btn_submit);
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -93,15 +93,6 @@ public class UserPost extends AppCompatActivity {
                 }
 
 
-            }
-        });
-
-        txtLokasi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    getPlace();
-                }
             }
         });
 
@@ -126,7 +117,6 @@ public class UserPost extends AppCompatActivity {
             takePicture();
             return true;
         } else if (id == R.id.lokasi) {
-            getPlace();
         }
 
         return super.onOptionsItemSelected(item);
@@ -184,7 +174,8 @@ public class UserPost extends AppCompatActivity {
         return false;
     }
 
-    private void getPlace() {
+
+    public void getPlace(View view) {
         try {
             builder = new PlacePicker.IntentBuilder();
             Intent intent = builder.build(UserPost.this);

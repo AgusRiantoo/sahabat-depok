@@ -71,7 +71,7 @@ public class LaporanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Picasso.with(context)
                 .load(ava)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.macet)
+                .error(R.drawable.loading)
                 .fit()
                 .centerInside()
                 .into(myHolder.avatar);
@@ -80,7 +80,7 @@ public class LaporanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Picasso.with(context)
                 .load(url)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.macet)
+                .error(R.drawable.loading)
                 .fit()
                 .centerInside()
                 .into(myHolder.foto);

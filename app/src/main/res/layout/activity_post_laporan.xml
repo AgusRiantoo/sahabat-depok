@@ -20,8 +20,7 @@
                 android:id="@+id/foto"
                 android:layout_width="match_parent"
                 android:layout_height="196dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/macet" />
+                android:scaleType="fitXY"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -49,10 +48,14 @@
                     android:inputType="textMultiLine"/>
 
             </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginTop="8dp">
 
                 <EditText
@@ -62,7 +65,15 @@
                     android:hint="Alamat"
                     android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
-
+                <ImageView
+                    android:theme="@style/tombol"
+                    android:background="@android:color/transparent"
+                    android:onClick="getPlace"
+                    android:layout_marginTop="14dp"
+                    android:src="@drawable/ic_pick_place"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp" />
+            </LinearLayout>
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"

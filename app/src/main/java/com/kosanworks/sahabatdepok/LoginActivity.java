@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-    private Button btnLogin;
+    private Button btnLogin,btnDaftar;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
@@ -38,9 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setStatusBarTranslucent(true);
+
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnDaftar = (Button) findViewById(R.id.btn_daftar);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -53,6 +57,16 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        btnDaftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, DaftarActivity.class);
+                startActivity(i);
+            }
+        });
+
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +81,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    protected void setStatusBarTranslucent(boolean makeTranslucent) {
+        if (makeTranslucent) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     private void checkLogin(final String email, final String password) {
@@ -145,11 +168,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showDialog() {
-    }
-
-    public void daftar(View view) {
-        Intent i = new Intent(this, DaftarActivity.class);
-        startActivity(i);
     }
 
 }

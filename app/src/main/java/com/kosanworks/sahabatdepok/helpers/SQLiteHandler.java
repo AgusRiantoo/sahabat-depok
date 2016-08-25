@@ -34,7 +34,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String KEY_TOKEN = "token";
     private static final String KEY_AVATAR = "avatar";
     private static final String KEY_PHONE = "phone";
-    private static final String KEY_CREATE_AT = "createDate";
+    private static final String KEY_CREATE_AT = "create_at";
 
     public SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,7 +46,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TOKEN + " TEXT,"
                 + KEY_EMAIL + " TEXT UNIQUE," + KEY_USERNAME + " TEXT,"
-                + KEY_AVATAR + " TEXT,"+ KEY_PHONE + " TEXT,"+ KEY_CREATE_AT +" agz DATE)";
+                + KEY_AVATAR + " TEXT,"+ KEY_PHONE + " TEXT,"+ KEY_CREATE_AT +" TEXT)";
         db.execSQL(CREATE_LOGIN_TABLE);
 
         Log.e(TAG, "Database tables created");

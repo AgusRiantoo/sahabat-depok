@@ -109,8 +109,6 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(mAdapter);
 
-        db = new SQLiteHandler(getApplicationContext());
-
         // session manager
         session = new SessionManager(getApplicationContext());
 
@@ -118,6 +116,7 @@ public class MainActivity extends AppCompatActivity
             logoutUser();
         }
 
+        db = new SQLiteHandler(getApplicationContext());
         HashMap<String, String> user = db.getUserDetails();
         String name = user.get("username");
         String email = user.get("email");
@@ -135,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         Picasso.with(this)
                 .load(ava)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.macet)
+                .error(R.drawable.loading)
                 .fit()
                 .centerInside()
                 .into(avatar);

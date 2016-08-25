@@ -71,11 +71,12 @@
         <activity
             android:name=".UserProfile"
             android:label="My Profile"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/AppTheme" />
         <activity
+            android:name=".Directions"
             android:label="Directions"
-            android:theme="@style/AppTheme"
-            android:name=".Directions"/>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".UserEdit"></activity>
     </application>
 
 </manifest>

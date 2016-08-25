@@ -82,6 +82,8 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                 Intent i = new Intent(LaporanDetail.this, Directions.class);
                 i.putExtra("latitude",latitude);
                 i.putExtra("longitude",longitude);
+                i.putExtra("title",judul_laporan);
+                i.putExtra("alamat",nama_daerah);
                 startActivity(i);
             }
         });
@@ -139,7 +141,7 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                         Picasso.with(LaporanDetail.this)
                                 .load(urlAvatar)
                                 .config(Bitmap.Config.RGB_565)
-                                .error(R.drawable.macet)
+                                .error(R.drawable.loading)
                                 .fit()
                                 .centerInside()
                                 .into(imgAvatar);
@@ -149,7 +151,7 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                         Picasso.with(LaporanDetail.this)
                                 .load(url)
                                 .config(Bitmap.Config.RGB_565)
-                                .error(R.drawable.macet)
+                                .error(R.drawable.loading)
                                 .fit()
                                 .centerInside()
                                 .into(imgFoto);
