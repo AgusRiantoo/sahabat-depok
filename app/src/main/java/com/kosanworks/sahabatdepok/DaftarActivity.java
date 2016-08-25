@@ -40,6 +40,7 @@ public class DaftarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daftar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         inputNama = (EditText) findViewById(R.id.input_nama);
         inputEmail = (EditText) findViewById(R.id.input_email);
@@ -160,6 +161,16 @@ public class DaftarActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public void backlogin(View view) {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
     }
 
 }

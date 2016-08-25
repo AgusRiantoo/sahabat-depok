@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ import modules.Route;
 
 public class Directions extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener, GoogleMap.OnMyLocationButtonClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
+    private static final int MY_REQUEST_CODE = 3;
     private GoogleMap mMap;
     private String etOrigin;
     private String etDestination;
@@ -74,28 +76,43 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         latitude = b.getDouble("latitude");
         longitude = b.getDouble("longitude");
 
-        etOrigin = "";
-        etDestination = String.valueOf(latitude + "," + longitude);
+        etOrigin = String.valueOf(latitude + "," + longitude);
+        etDestination = destination;
         sendRequest();
+
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .enableAutoManage( this, 0, this )
-                    .addApi( Places.GEO_DATA_API )
-                    .addApi( Places.PLACE_DETECTION_API )
+                    .enableAutoManage(this, 0, this)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
         }
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_REQUEST_CODE);
+
+            } else {
+                Toast.makeText(Directions.this,"Permission Denied",Toast.LENGTH_SHORT).show();
+                onSupportNavigateUp();
+            }
+        }
     }
+
 
     private void sendRequest() {
         String origin = etOrigin;
         String destination = etDestination;
         if (origin.isEmpty()) {
-            Toast.makeText(this, "Silahkan lakukan request dengan menekan tombol find my location!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Origin not found!", Toast.LENGTH_SHORT).show();
             return;
         }
         if (destination.isEmpty()) {
@@ -113,10 +130,12 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng location = new LatLng(latitude,longitude);
+        LatLng location = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
-        mMap.getUiSettings().setAllGesturesEnabled(true);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+        mMap.setOnMyLocationButtonClickListener(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -126,8 +145,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setOnMyLocationButtonClickListener(this);
-
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
@@ -157,6 +174,24 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Now user should be able to use camera
+                Toast.makeText(this, "Permission Granted!!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Your app will not have this permission. Turn off all functions
+                // that require this permission or it will force close like your
+                // original question
+                Toast.makeText(this, "Permission Denied!!", Toast.LENGTH_SHORT).show();
+                onSupportNavigateUp();
+            }
+        }
+    }
+
 
     @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
@@ -261,5 +296,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

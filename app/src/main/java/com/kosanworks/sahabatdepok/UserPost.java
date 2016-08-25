@@ -15,8 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,9 +78,15 @@ public class UserPost extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-
-//        takePicture();
+        takePicture();
         Button submit = (Button) findViewById(R.id.btn_submit);
+
+        txtLokasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Toast.makeText(UserPost.this,"Silahkan tekan icon pick location untuk menentukan alamat",Toast.LENGTH_SHORT).show();
+                }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -97,31 +101,6 @@ public class UserPost extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.posting, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.kamera) {
-            takePicture();
-            return true;
-        } else if (id == R.id.lokasi) {
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -164,6 +143,7 @@ public class UserPost extends AppCompatActivity {
 
         bitmap2 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
         String foto = getStringImage(bitmap2);
+
 
         if (!foto.isEmpty() && !inputNama.isEmpty() && !inputKeterangan.isEmpty() && !inputLokasi.isEmpty() && !latitude.isEmpty() && !longitude.isEmpty()) {
 
@@ -270,14 +250,13 @@ public class UserPost extends AppCompatActivity {
                 Uri photoUri = null;
                 if (data == null) {
                     // A known bug here! The image should have saved in fileUri
-                    Toast.makeText(this, "Image saved successfully",
-                            Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "Image saved successfully", Toast.LENGTH_LONG).show();
                     photoUri = fileUri;
 
                 } else {
                     photoUri = data.getData();
-                    Toast.makeText(this, "Image saved successfully in: " + data.getData(),
-                            Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "Image saved successfully in: " + data.getData(),
+//                            Toast.LENGTH_LONG).show();
                 }
 
                 showPhoto(photoUri.getPath());

@@ -10,10 +10,6 @@
             android:id="@+id/nav_laporan"
             android:icon="@drawable/ic_laporan"
             android:title="LaporanKu" />
-        <item
-            android:id="@+id/nav_depok"
-            android:icon="@drawable/ic_laporan"
-            android:title="My Depok" />
     </group>
 
     <item android:title="User Account">

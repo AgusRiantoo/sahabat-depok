@@ -241,7 +241,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_laporan) {
             Intent i = new Intent(this, UserLaporan.class);
             startActivity(i);
-        } else if (id == R.id.nav_depok) {
 
         } else if (id == R.id.nav_profil) {
             Intent i = new Intent(this, UserProfile.class);

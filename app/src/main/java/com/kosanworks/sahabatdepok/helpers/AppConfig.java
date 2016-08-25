@@ -17,4 +17,6 @@ public class AppConfig {
 
     public static String URL_LAPORAN_DETAIL = "http://188.166.189.134/api/getLaporanId";
 
+    public static String URL_UPDATE_USER = "http://188.166.189.134/api/updateProfile";
+
 }

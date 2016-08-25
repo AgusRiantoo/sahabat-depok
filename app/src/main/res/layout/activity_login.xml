@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="Sudah punya akun? Login"
+                android:text="Belum punya akun? Daftar"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark" />
 

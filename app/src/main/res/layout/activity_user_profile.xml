@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_create"
-                app:backgroundTint="@color/biru"
+                app:backgroundTint="@color/colorPrimaryDark"
                 app:layout_anchor="@id/background"
                 app:layout_anchorGravity="bottom|right|end" />
 
@@ -223,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_laporan_white"
-                app:backgroundTint="@color/biru"
+                app:backgroundTint="@color/colorPrimaryDark"
                 app:layout_anchor="@id/background"
                 app:layout_anchorGravity="bottom|left|end" />
 
