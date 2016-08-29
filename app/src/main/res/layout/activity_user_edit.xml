@@ -21,7 +21,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="230dp"
                     android:layout_weight="1"
                     android:background="@drawable/city"
                     android:orientation="vertical">
@@ -29,7 +29,7 @@
                     <ImageView
                         android:id="@+id/background"
                         android:layout_width="match_parent"
-                        android:layout_height="130dp" />
+                        android:layout_height="110dp" />
 
                 </LinearLayout>
 
@@ -124,7 +124,7 @@
                 android:src="@drawable/ic_galeri"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:layout_anchor="@id/background"
-                app:layout_anchorGravity="bottom|right|end" />
+                app:layout_anchorGravity="bottom|left|end" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/kamera"
@@ -134,7 +134,7 @@
                 android:src="@drawable/ic_camera"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:layout_anchor="@id/background"
-                app:layout_anchorGravity="bottom|left|end" />
+                app:layout_anchorGravity="bottom|right|end" />
 
         </android.support.design.widget.CoordinatorLayout>
     </ScrollView>

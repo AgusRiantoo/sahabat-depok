@@ -4,8 +4,10 @@ package com.kosanworks.sahabatdepok;
  * Created by ghost on 26/07/16.
  */
 
+
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -52,7 +54,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
-    private String destination;
+    private String tujuan;
     private Double latitude;
     private Double longitude;
     private GoogleApiClient mGoogleApiClient;
@@ -70,16 +72,27 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         mapFragment.getMapAsync(this);
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_REQUEST_CODE);
+            }
+        }
+
         Bundle b = getIntent().getExtras();
         title = b.getString("title");
-        destination = b.getString("alamat");
+        tujuan = b.getString("alamat");
         latitude = b.getDouble("latitude");
         longitude = b.getDouble("longitude");
 
-        etOrigin = String.valueOf(latitude + "," + longitude);
-        etDestination = destination;
-        sendRequest();
 
+//        Log.e("latitude", String.valueOf(latitude));
+
+        etDestination = String.valueOf(latitude)+ "," + String.valueOf(longitude);
+
+        Toast.makeText(this,"Tekan tombol My Location untuk memulai...",Toast.LENGTH_SHORT).show();
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -91,22 +104,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                     .addApi(LocationServices.API)
                     .build();
         }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_REQUEST_CODE);
-
-            } else {
-                Toast.makeText(Directions.this,"Permission Denied",Toast.LENGTH_SHORT).show();
-                onSupportNavigateUp();
-            }
-        }
     }
-
 
     private void sendRequest() {
         String origin = etOrigin;
@@ -128,14 +126,36 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Now user should be able to use camera
+                Toast.makeText(this, "Permission Granted!!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Your app will not have this permission. Turn off all functions
+                // that require this permission or it will force close like your
+                // original question
+                Toast.makeText(this, "Permission Denied!!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        }
+    }
+
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng location = new LatLng(latitude, longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
+        mMap.addMarker(new MarkerOptions()
+                .title(title)
+                .snippet(tujuan)
+                .position(location));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
 
-        mMap.setOnMyLocationButtonClickListener(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -145,8 +165,18 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        mMap.setOnMyLocationButtonClickListener(this);
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        String awal = "null";
+        if (mLastLocation != null) {
+
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
+            awal = latitude + "," + longitude;
+        }
+//        Log.e("awal",awal);
         mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
     }
 
@@ -176,24 +206,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Now user should be able to use camera
-                Toast.makeText(this, "Permission Granted!!", Toast.LENGTH_SHORT).show();
-            } else {
-                // Your app will not have this permission. Turn off all functions
-                // that require this permission or it will force close like your
-                // original question
-                Toast.makeText(this, "Permission Denied!!", Toast.LENGTH_SHORT).show();
-                onSupportNavigateUp();
-            }
-        }
-    }
-
-
-    @Override
     public void onDirectionFinderSuccess(List<Route> routes) {
         progressDialog.dismiss();
         polylinePaths = new ArrayList<>();
@@ -208,6 +220,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             originMarkers.add(mMap.addMarker(new MarkerOptions()
                     .title("Your Location")
                     .position(route.startLocation)));
+
             destinationMarkers.add(mMap.addMarker(new MarkerOptions()
                     .title(title)
                     .snippet(route.endAddress)
@@ -224,6 +237,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             polylinePaths.add(mMap.addPolyline(polylineOptions));
         }
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -233,6 +247,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public boolean onMyLocationButtonClick() {
 
+        mMap.clear();
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED);
 
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -243,9 +258,12 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             longitude = mLastLocation.getLongitude();
             location = latitude + "," + longitude;
         }
+//        Log.e("location",location);
         etOrigin = location;
-        etDestination = destination;
-
+        etDestination = tujuan;
+//        Log.e("origin",location);
+//        Log.e("tujuan",tujuan);
+        Toast.makeText(Directions.this,"Mencari rute...",Toast.LENGTH_SHORT).show();
         sendRequest();
 
         return false;
@@ -296,6 +314,5 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

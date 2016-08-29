@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class UserProfile extends AppCompatActivity {
     private SQLiteHandler db;
-
+    String avatar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +27,7 @@ public class UserProfile extends AppCompatActivity {
         String name = user.get("username");
         String email = user.get("email");
         String phone = user.get("phone");
-        String avatar = user.get("avatar");
+        avatar = user.get("avatar");
         String create_at = user.get("create_at");
 
         TextView setNama = (TextView) findViewById(R.id.tvNama);
@@ -47,7 +47,7 @@ public class UserProfile extends AppCompatActivity {
         Picasso.with(this)
                 .load(avatar)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.loading)
+                .error(R.drawable.avatar)
                 .fit()
                 .centerInside()
                 .into(imgAvatar);
@@ -70,11 +70,16 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
-
     }
 
     public boolean onSupportNavigateUp(){
         onBackPressed();
         return true;
+    }
+
+    public void detailavatar(View view){
+        Intent i = new Intent(getApplicationContext(),PictureDetail.class);
+        i.putExtra("url",avatar);
+        startActivity(i);
     }
 }

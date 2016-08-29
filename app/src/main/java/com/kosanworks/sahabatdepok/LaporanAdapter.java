@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 
 public class LaporanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -57,14 +59,15 @@ public class LaporanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myHolder.txtTanggal.setText(current.create_at);
         myHolder.txtAlamat.setText(current.nama_daerah);
         myHolder.id = current.id;
-        String mStatus;
-        if (current.status == "1"){
-            mStatus = "Sedang dalam proses";
-        }else if (current.status == "3"){
-            mStatus = "Sudah diselesaikan";
-        }else {
+        String mStatus = "";
+        if (Objects.equals(current.status, "0")){
             mStatus = "Menunggu konfirmasi";
+        }else if (Objects.equals(current.status, "1")){
+            mStatus = "Sedang dikerjakan";
+        }else if(Objects.equals(current.status, "2")){
+            mStatus = "Selesai";
         }
+        Log.e("status",current.status);
         myHolder.txtStatus.setText(mStatus);
 
         String ava = "http://188.166.189.134/avatar/".concat(current.avatar);
@@ -80,7 +83,7 @@ public class LaporanAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Picasso.with(context)
                 .load(url)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.loading)
+                .error(R.drawable.avatar)
                 .fit()
                 .centerInside()
                 .into(myHolder.foto);

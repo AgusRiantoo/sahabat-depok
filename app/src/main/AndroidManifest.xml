@@ -22,11 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name"
+            android:name=".SplashScreen"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,9 +41,8 @@
             android:value="AIzaSyA7IesKiZ4BavK9jE9bH1Gr8U1NlwbzJ4U" />
 
         <activity
-            android:name=".SplashScreen"
-            android:label="Splash"
-            android:theme="@style/AppTheme" />
+            android:name=".LoginActivity"
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -70,13 +68,20 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".LaporanDetail" />
         <activity
+            android:name=".WelcomeScreen"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".UserProfile"
             android:label="My Profile"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Directions"
-            android:label="Directions"/>
-        <activity android:name=".UserEdit"/>
+            android:label="Directions" />
+        <activity android:name=".UserEdit" />
+        <activity
+            android:theme="@style/MyMaterialTheme"
+            android:name=".PictureDetail"/>
+
     </application>
 
 </manifest>

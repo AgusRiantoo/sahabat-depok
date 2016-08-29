@@ -1,7 +1,9 @@
 package com.kosanworks.sahabatdepok;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +63,15 @@ public class UserLaporan extends AppCompatActivity {
             public void onRefresh() {
                 tampiLaporan();
                 onItemsLoadComplete();
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(UserLaporan.this, UserPost.class);
+                startActivity(i);
             }
         });
 

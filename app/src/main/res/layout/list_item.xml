@@ -42,7 +42,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Nama"
-                    android:textSize="@dimen/feed_item_profile_name"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -83,7 +83,7 @@
             <ImageView
                 android:id="@+id/foto"
                 android:layout_width="match_parent"
-                android:layout_height="156dp"
+                android:layout_height="176dp"
                 android:background="@color/textColor"
                 android:scaleType="centerCrop"
                 android:visibility="visible" />
@@ -98,13 +98,13 @@
                 android:text="status"
                 android:textColor="@android:color/white"
                 android:gravity="right"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/alamat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/foto"
-                android:background="@color/alamat"
+                android:background="@color/hijau"
                 android:padding="8dp"
                 android:text="Alamat"
                 android:textColor="@android:color/white" />

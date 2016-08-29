@@ -21,18 +21,27 @@
             android:id="@+id/tvJudul"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+            android:paddingRight="@dimen/feed_item_status_pad_left_right"
+            android:textSize="18sp"
+            android:text="ini judulnya"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:paddingTop="@dimen/feed_item_status_pad_top"
-            android:text="ini judulnya"
-            android:textStyle="bold" />
+            android:text="1jam yang"/>
 
         <TextView
             android:id="@+id/tvKonten"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:text="ini Laporannya"
@@ -49,28 +58,27 @@
                 android:layout_height="156dp"
                 android:background="@color/textColor"
                 android:scaleType="centerCrop"
-                android:src="@drawable/loading"
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#8000"
                 android:padding="4dp"
-                android:text="1 jam yang lalu"
+                android:text="status"
                 android:gravity="right"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/alamat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/foto"
-                android:background="@color/alamat"
+                android:background="@color/hijau"
                 android:padding="8dp"
-                android:text="Alamat"
+                android:text="hijau"
                 android:textColor="@android:color/white" />
 
         </RelativeLayout>

@@ -77,6 +77,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(KEY_CREATE_AT, create_at); // Avatar
         // Inserting Row
         long id = db.insert(TABLE_USER, null, values);
+
         db.close(); // Closing database connection
 
         Log.d(TAG, "New user inserted into sqlite: " + id);
@@ -119,6 +120,23 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         db.close();
 
 //        Log.d(TAG, "Deleted all user info from sqlite");
+    }
+
+    public void updateUser(String email, String username, String avatar_link, String phone, String create_at) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_EMAIL, email); // Email
+        values.put(KEY_USERNAME, username); // Token
+        values.put(KEY_AVATAR, avatar_link); // Avatar
+        values.put(KEY_PHONE, phone); // Avatar
+        values.put(KEY_CREATE_AT, create_at); // Avatar
+        // Inserting Row
+        long id = db.update(TABLE_USER, values, KEY_ID + "= ?", new String[]{String.valueOf(1)});
+
+        db.close(); // Closing database connection
+        Log.e("berbasil update foto",avatar_link);
+        Log.d(TAG, "Update into sqlite: " + id);
     }
 
 }

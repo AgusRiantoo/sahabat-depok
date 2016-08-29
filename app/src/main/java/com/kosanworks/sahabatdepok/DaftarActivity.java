@@ -3,9 +3,14 @@ package com.kosanworks.sahabatdepok;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,6 +40,8 @@ public class DaftarActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +49,19 @@ public class DaftarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_daftar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_nama);
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
+        inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
+
         inputNama = (EditText) findViewById(R.id.input_nama);
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
         inputNomer = (EditText) findViewById(R.id.input_nomer);
+
+        inputNama.addTextChangedListener(new MyTextWatcher(inputNama));
+        inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
+        inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
+
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
@@ -63,6 +79,7 @@ public class DaftarActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                submitForm();
                 String nama = inputNama.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
@@ -76,6 +93,116 @@ public class DaftarActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * Validating form
+     */
+    private void submitForm() {
+        if (!validateName()) {
+            return;
+        }
+
+        if (!validateEmail()) {
+            return;
+        }
+
+        if (!validatePassword()) {
+            return;
+        }
+
+        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private boolean validateName() {
+        if (inputNama.getText().toString().trim().isEmpty()) {
+            inputLayoutName.setError(getString(R.string.err_msg_name));
+            requestFocus(inputNama);
+            return false;
+        } else {
+            inputLayoutName.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateEmail() {
+        if (inputEmail.getText().toString().trim().isEmpty()) {
+            inputLayoutEmail.setError(getString(R.string.err_msg_email));
+            requestFocus(inputEmail);
+            return false;
+        } else {
+            inputLayoutEmail.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+//
+//    private boolean validateEmail() {
+//        String email = inputEmail.getText().toString().trim();
+//
+//        if (email.isEmpty() || !isValidEmail(email)) {
+//            inputLayoutEmail.setError(getString(R.string.err_msg_email));
+//            requestFocus(inputEmail);
+//            return false;
+//        } else {
+//            inputLayoutEmail.setErrorEnabled(false);
+//        }
+//
+//        return true;
+//    }
+
+    private boolean validatePassword() {
+        if (inputPassword.getText().toString().trim().isEmpty()) {
+            inputLayoutPassword.setError(getString(R.string.err_msg_password));
+            requestFocus(inputPassword);
+            return false;
+        } else {
+            inputLayoutPassword.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.input_nama:
+                    validateName();
+                    break;
+                case R.id.input_email:
+                    validateEmail();
+                    break;
+                case R.id.input_password:
+                    validatePassword();
+                    break;
+            }
+        }
     }
 
     private void registerUser(final String nama, final String email, final String password, final String nomer) {
@@ -121,7 +248,9 @@ public class DaftarActivity extends AppCompatActivity {
                                 errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Email terdaftar.", Toast.LENGTH_LONG).show();
+
                 }
 
             }
@@ -131,7 +260,7 @@ public class DaftarActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("ERROR", "Registration Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "Gagal terhubung ke server, pastikan anda memiliki koneksi internet!", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {

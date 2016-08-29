@@ -41,7 +41,7 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
     private SQLiteHandler db;
     private SessionManager session;
     private ProgressDialog pDialog;
-    private String id;
+    private String id,url,urlAvatar;
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
@@ -122,6 +122,19 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                         TextView judul = (TextView) findViewById(R.id.tvJudul);
                         judul.setText(judul_laporan);
 
+                        TextView stats = (TextView) findViewById(R.id.tvStatus);
+
+                        String mStatus;
+                        if (status == "1"){
+                            mStatus = "Sedang dalam proses";
+                        }else if (status == "2"){
+                            mStatus = "Sudah diselesaikan";
+                        }else {
+                            mStatus = "Menunggu konfirmasi";
+                        }
+
+                        stats.setText(mStatus);
+
                         TextView konten = (TextView) findViewById(R.id.tvKonten);
                         konten.setText(konten_laporan);
 
@@ -136,7 +149,7 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                         date.setText(create_at);
 
                         ImageView imgAvatar = (ImageView) findViewById(R.id.avatar);
-                        String urlAvatar = "http://188.166.189.134/avatar/".concat(avatar);
+                        urlAvatar = "http://188.166.189.134/avatar/".concat(avatar);
                         Picasso.with(LaporanDetail.this)
                                 .load(urlAvatar)
                                 .config(Bitmap.Config.RGB_565)
@@ -146,7 +159,7 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                                 .into(imgAvatar);
 
                         ImageView imgFoto = (ImageView) findViewById(R.id.foto);
-                        String url = "http://188.166.189.134/foto/".concat(foto);
+                        url = "http://188.166.189.134/foto/".concat(foto);
                         Picasso.with(LaporanDetail.this)
                                 .load(url)
                                 .config(Bitmap.Config.RGB_565)
@@ -155,10 +168,11 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
                                 .centerInside()
                                 .into(imgFoto);
 
-                        LatLng wayang = new LatLng(latitude, longitude);
+                        LatLng tkp = new LatLng(latitude, longitude);
                         mMap.addMarker(new MarkerOptions()
-                                .position(wayang));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wayang, 15));
+                                .title(nama_daerah)
+                                .position(tkp));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tkp, 15));
 
                         hideDialog();
                     } else {
@@ -217,9 +231,8 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-//        mMap.getUiSettings().setMapToolbarEnabled(false);
-//        mMap.getUiSettings().setAllGesturesEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setAllGesturesEnabled(false);
     }
 
     private void showDialog() {
@@ -247,5 +260,17 @@ public class LaporanDetail extends AppCompatActivity implements OnMapReadyCallba
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public void detail(View view){
+        Intent i = new Intent(getApplicationContext(),PictureDetail.class);
+        i.putExtra("url",url);
+        startActivity(i);
+    }
+
+    public void detailavatar(View view){
+        Intent i = new Intent(getApplicationContext(),PictureDetail.class);
+        i.putExtra("url",urlAvatar);
+        startActivity(i);
     }
 }

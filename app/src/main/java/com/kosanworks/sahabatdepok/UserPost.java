@@ -103,11 +103,20 @@ public class UserPost extends AppCompatActivity {
     }
 
     public String getStringImage(Bitmap bmp) {
+
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+//        bmp.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+//        2,048 x 1536 2mp 2,592 x 1944
+        Bitmap photo = bmp;
+        photo = Bitmap.createScaledBitmap(photo, 2592, 1994, false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        photo.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+
             /*
             * encode image to base64 so that it can be picked by saveImage.php file
             * */
+        Log.e("width", String.valueOf(bmp.getWidth() +" x " + bmp.getHeight()));
         String encodedImage = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
 
@@ -136,12 +145,13 @@ public class UserPost extends AppCompatActivity {
 
 
     private boolean submitPost() throws IOException {
-        Log.e("pencet", "dipencet");
+//        Log.e("pencet", "dipencet");
         String inputNama = txtnama.getText().toString().trim();
         String inputKeterangan = txtketerangan.getText().toString().trim();
         String inputLokasi = txtLokasi.getText().toString().trim();
 
         bitmap2 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+
         String foto = getStringImage(bitmap2);
 
 
@@ -173,13 +183,16 @@ public class UserPost extends AppCompatActivity {
         }
     }
 
+    public void retake(View view) {
+        takePicture();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Now user should be able to use camera
-                Toast.makeText(this, "Permission Granted!!", Toast.LENGTH_SHORT).show();
                 takePicture();
             } else {
                 // Your app will not have this permission. Turn off all functions
@@ -239,8 +252,8 @@ public class UserPost extends AppCompatActivity {
                     latLng = place.getLatLng();
                     latitude = String.valueOf(latLng.latitude);
                     longitude = String.valueOf(latLng.longitude);
-                    Log.e("latitude", latitude);
-                    Log.e("ALAMAT", String.valueOf(txtLokasi.getText()));
+//                    Log.e("latitude", latitude);
+//                    Log.e("ALAMAT", String.valueOf(txtLokasi.getText()));
                     break;
             }
         }
@@ -289,7 +302,6 @@ public class UserPost extends AppCompatActivity {
 
 //            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
 //            BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmap);
-            photoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
             photoImage.setImageBitmap(bitmap);
         }
     }
@@ -307,7 +319,7 @@ public class UserPost extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.d("EROR", "Laporan Response: " + response.toString());
+//                Log.d("EROR", "Laporan Response: " + response.toString());
                 hideDialog();
                 Toast.makeText(UserPost.this, "Berhasil mengirim laporan", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(UserPost.this, MainActivity.class);
@@ -318,12 +330,12 @@ public class UserPost extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("EROR", "Laporan Response: " + error.networkResponse.data);
-                Log.d("EROR", "Laporan Response: " + error.networkResponse.headers);
-                Log.d("EROR", "Laporan Response: " + error.networkResponse.notModified);
-                Log.d("EROR", "Laporan Response: " + error.networkResponse.statusCode);
-                Log.e("ERROR", "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Gagal mengirim postingan, ukuran gambar terlalu besar ",
+//                Log.d("EROR", "Laporan Response: " + error.networkResponse.data);
+//                Log.d("EROR", "Laporan Response: " + error.networkResponse.headers);
+//                Log.d("EROR", "Laporan Response: " + error.networkResponse.notModified);
+//                Log.d("EROR", "Laporan Response: " + error.networkResponse.statusCode);
+//                Log.e("ERROR", "Registration Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(), "Ukuran foto terlalu besar mohon kecilkan resolusi kamera anda.. ",
                         Toast.LENGTH_LONG).show();
                 hideDialog();
             }
@@ -345,7 +357,7 @@ public class UserPost extends AppCompatActivity {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
+                Map<String, String> headers = new HashMap<>();
                 HashMap<String, String> user = db.getUserDetails();
                 //ambil token yang disimpan dalam SQLite
                 String token = user.get("token");

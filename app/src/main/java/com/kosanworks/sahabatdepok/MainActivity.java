@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 Intent i = new Intent(MainActivity.this, UserPost.class);
                 startActivity(i);
             }
@@ -99,16 +97,6 @@ public class MainActivity extends AppCompatActivity
 //        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
 
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        recyclerView.setAdapter(mAdapter);
-
         // session manager
         session = new SessionManager(getApplicationContext());
 
@@ -121,8 +109,6 @@ public class MainActivity extends AppCompatActivity
         String name = user.get("username");
         String email = user.get("email");
         String ava = user.get("avatar");
-
-
         TextView txtname = (TextView) header.findViewById(R.id.username);
         txtname.setText(name);
 
@@ -134,15 +120,15 @@ public class MainActivity extends AppCompatActivity
         Picasso.with(this)
                 .load(ava)
                 .config(Bitmap.Config.RGB_565)
-                .error(R.drawable.loading)
+                .error(R.drawable.avatar)
                 .fit()
                 .centerInside()
                 .into(avatar);
 
-
         pDialog = new ProgressDialog(this);
-
         pDialog.setCancelable(false);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -152,7 +138,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
         tampiLaporan();
+
+//        recyclerView.setAdapter(mAdapter);
 
     }
 
@@ -167,7 +159,7 @@ public class MainActivity extends AppCompatActivity
 
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
-        finish();
+        this.finish();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -296,6 +288,7 @@ public class MainActivity extends AppCompatActivity
                             laporanData.foto = jsonobject.getString("foto");
                             laporanData.create_at = jsonobject.getString("created_at");
                             data.add(laporanData);
+
                             recyclerView.setVisibility(View.VISIBLE);
                             mAdapter = new LaporanAdapter(MainActivity.this, data);
                             recyclerView.setAdapter(mAdapter);

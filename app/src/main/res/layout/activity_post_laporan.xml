@@ -16,11 +16,31 @@
             android:orientation="vertical"
             android:padding="8dp">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom">
             <ImageView
                 android:id="@+id/foto"
+                android:src="@drawable/avatar"
                 android:layout_width="match_parent"
-                android:layout_height="196dp"
-                android:scaleType="fitXY"/>
+                android:layout_height="256dp"
+                android:background="@color/textColor"
+                android:scaleType="centerCrop"
+                android:visibility="visible" />
+            <ImageView
+                android:theme="@style/tombol"
+                android:id="@+id/status"
+                android:background="@android:color/transparent"
+                android:onClick="retake"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_camera_black"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -70,10 +90,10 @@
                     android:theme="@style/tombol"
                     android:background="@android:color/transparent"
                     android:onClick="getPlace"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/ic_pick_place"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp" />
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
             </LinearLayout>
             <Button
                 android:id="@+id/btn_submit"

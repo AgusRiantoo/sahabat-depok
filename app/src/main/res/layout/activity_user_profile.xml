@@ -21,7 +21,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="230dp"
                     android:layout_weight="1"
                     android:background="@drawable/city"
                     android:orientation="vertical">
@@ -29,7 +29,7 @@
                     <ImageView
                         android:id="@+id/background"
                         android:layout_width="match_parent"
-                        android:layout_height="130dp" />
+                        android:layout_height="110dp" />
 
                 </LinearLayout>
 
@@ -186,9 +186,6 @@
                                         android:textAppearance="?android:attr/textAppearanceMedium" />
                                 </LinearLayout>
                             </LinearLayout>
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp" />
 
                         </LinearLayout>
 
@@ -201,6 +198,7 @@
                 android:layout_width="156dp"
                 android:layout_height="156dp"
                 android:src="@drawable/avatar"
+                android:onClick="detailavatar"
                 app:civ_border_color="#fff"
                 app:civ_border_width="3dp"
                 app:layout_anchor="@id/background"

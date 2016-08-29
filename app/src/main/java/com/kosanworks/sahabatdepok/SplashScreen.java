@@ -11,7 +11,7 @@ import android.os.Handler;
 public class SplashScreen extends Activity {
 
 
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
 
 
     @Override
@@ -24,7 +24,7 @@ public class SplashScreen extends Activity {
             @Override
             public void run() {
 
-                Intent mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent mainIntent = new Intent(SplashScreen.this, WelcomeScreen.class);
                 SplashScreen.this.startActivity(mainIntent);
                 SplashScreen.this.finish();
             }

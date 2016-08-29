@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,9 +37,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        setStatusBarTranslucent(true);
 
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
@@ -77,20 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (!email.isEmpty() && !password.isEmpty()) {
                     checkLogin(email, password);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Silahkan lengkapi form!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Email dan password tidak boleh kosong.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-
-    protected void setStatusBarTranslucent(boolean makeTranslucent) {
-        if (makeTranslucent) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-    }
 
     private void checkLogin(final String email, final String password) {
         String tag_string_req = "req_login";
@@ -102,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Log.e("login", "Login Response : " + response.toString());
+//                Log.e("login", "Login Response : " + response.toString());
                 hideDialog();
 
                 try {
@@ -131,8 +124,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     // JSON error
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: ", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Gagal mendaftarkan akun.", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -140,9 +133,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("login", "Login Error: ");
+//                Log.e("login", "Login Error: ");
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "Gagal terhubung ke server, pastikan anda memiliki koneksi internet!", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {
@@ -164,10 +157,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void hideDialog() {
-    }
-
     private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
     }
 
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
 }
