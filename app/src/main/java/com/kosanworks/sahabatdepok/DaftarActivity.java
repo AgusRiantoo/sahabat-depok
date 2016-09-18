@@ -40,7 +40,7 @@ public class DaftarActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
-    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
+    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword,inputLayoutNomer;
 
 
     @Override
@@ -52,6 +52,7 @@ public class DaftarActivity extends AppCompatActivity {
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_nama);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
         inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
+        inputLayoutNomer = (TextInputLayout) findViewById(R.id.input_layout_nomor);
 
         inputNama = (EditText) findViewById(R.id.input_nama);
         inputEmail = (EditText) findViewById(R.id.input_email);
@@ -61,6 +62,7 @@ public class DaftarActivity extends AppCompatActivity {
         inputNama.addTextChangedListener(new MyTextWatcher(inputNama));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
+        inputNomer.addTextChangedListener(new MyTextWatcher(inputNomer));
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -79,17 +81,8 @@ public class DaftarActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                submitForm();
-                String nama = inputNama.getText().toString().trim();
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                String nomer = inputNomer.getText().toString().trim();
+                submitForm();
 
-                if (!nama.isEmpty() && !email.isEmpty() && !password.isEmpty() && !nomer.isEmpty()) {
-                    registerUser(nama, email, password, nomer);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Mohon lengkapi data anda!", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -111,7 +104,20 @@ public class DaftarActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+        if (!validateNomer()) {
+            return;
+        }
+        String nama = inputNama.getText().toString().trim();
+        String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
+        String nomer = inputNomer.getText().toString().trim();
+
+        if (!nama.isEmpty() && !email.isEmpty() && !password.isEmpty() && !nomer.isEmpty()) {
+            registerUser(nama, email, password, nomer);
+        } else {
+            Toast.makeText(getApplicationContext(), "Mohon lengkapi data anda!", Toast.LENGTH_SHORT).show();
+        }
+//        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -127,8 +133,11 @@ public class DaftarActivity extends AppCompatActivity {
         return true;
     }
 
+
     private boolean validateEmail() {
-        if (inputEmail.getText().toString().trim().isEmpty()) {
+        String email = inputEmail.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
             inputLayoutEmail.setError(getString(R.string.err_msg_email));
             requestFocus(inputEmail);
             return false;
@@ -139,21 +148,6 @@ public class DaftarActivity extends AppCompatActivity {
         return true;
     }
 
-//
-//    private boolean validateEmail() {
-//        String email = inputEmail.getText().toString().trim();
-//
-//        if (email.isEmpty() || !isValidEmail(email)) {
-//            inputLayoutEmail.setError(getString(R.string.err_msg_email));
-//            requestFocus(inputEmail);
-//            return false;
-//        } else {
-//            inputLayoutEmail.setErrorEnabled(false);
-//        }
-//
-//        return true;
-//    }
-
     private boolean validatePassword() {
         if (inputPassword.getText().toString().trim().isEmpty()) {
             inputLayoutPassword.setError(getString(R.string.err_msg_password));
@@ -161,6 +155,18 @@ public class DaftarActivity extends AppCompatActivity {
             return false;
         } else {
             inputLayoutPassword.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateNomer() {
+        if (inputNomer.getText().toString().trim().isEmpty()) {
+            inputLayoutNomer.setError(getString(R.string.err_msg_password));
+            requestFocus(inputNomer);
+            return false;
+        } else {
+            inputLayoutNomer.setErrorEnabled(false);
         }
 
         return true;

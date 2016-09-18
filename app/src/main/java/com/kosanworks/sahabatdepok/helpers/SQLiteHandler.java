@@ -1,9 +1,5 @@
 package com.kosanworks.sahabatdepok.helpers;
 
-/**
- * Created by ghost on 21/08/16.
- */
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,17 +13,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     private static final String TAG = SQLiteHandler.class.getSimpleName();
 
-    // All Static variables
-    // Database Version
+
     private static final int DATABASE_VERSION = 1;
 
-    // Database Name
     private static final String DATABASE_NAME = "sahabatDepok_DB";
 
-    // Login table name
     private static final String TABLE_USER = "user";
 
-    // Login Table Columns names
     private static final String KEY_ID = "userid";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_EMAIL = "email";

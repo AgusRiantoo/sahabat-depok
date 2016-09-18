@@ -40,7 +40,8 @@
         Untuk melaporkan ke pemerintah, anda cukup memfoto laporan anda kemudian isi keterangan dan alamatnya lalu submit, maka laporan anda akan otomatis masuk ke pemerintah depok.
     </string>
     <string name="err_msg_name">Masukan nama lengkap anda</string>
-    <string name="err_msg_email">Masukan email anda</string>
+    <string name="err_msg_email">Masukan email dengan benar</string>
     <string name="err_msg_password">Masukan password anda</string>
+    <string name="err_msg_nomor">masukan nomor hp anda dengan benar</string>
 
 </resources>
